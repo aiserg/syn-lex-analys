@@ -4,12 +4,12 @@ Output = document.getElementById("output-area")
 Input.value = ""
 Output.value = ""
 InputMassive = []
+Convol = []
 
 #Инициализация по заданию
-Keywords = ["ROWVECTOR", "COLVECTOR", "MATRIX", "PRINT"]
-Separators = ["(", ",", ")", "=", "+", "-", "*", "^", "@"]
-Identifies = [""]
-Literals = []
+Keywords = ["ROWVECTOR", "COLVECTOR", "MATRIX", "PRINT"]  #1 in Convol
+Separators = ["(", ",", ")", "=", "+", "-", "*", "^", "@"]  #2 in Convol
+Literals = []   #3 in Convol
 #Вызовы вспомогательных функций
 
 #       #       #       #
@@ -30,20 +30,20 @@ streamWords = ->
       for i in [0..word.length]
         if word.charAt(i) is "\n" then num_n++
     InputMassive = stage.split("\n")
-    console.log(InputMassive)
     lexicalAnalysis(InputMassive,num_n)
 
 lexicalAnalysis = (arr,n) ->
   word = arr[n]
+  console.log(word)
   word = word.replace(/\s+$/, "");
   preResult = ""
   for i in [0..word.length]
-    #console.log(word.charAt(i))
+
     if word.charAt(i) in Separators or word.charAt(i) is ' ' or i is word.length
-      iK = isKeyword(preResult)
-      if iK is off then iL = isLiteral(preResult)
-      iN = isNumber(preResult)
-      iS = isSeparator(word.charAt(i))
+      iK = isKeyword(preResult,word)
+      if iK is off then iL = isLiteral(preResult,word)
+      iN = isNumber(preResult,word)
+      iS = isSeparator(word.charAt(i),word)
 
       if iK is on
         preResult = ""
@@ -81,28 +81,42 @@ Input.addEventListener('keyup', streamWords, false)
 #########################
 #Вспомогательные функции
 
-isKeyword = (str) ->
+isKeyword = (str,command) ->
   for word, index in Keywords
     if word is str
-      console.log("courseos@razumov:~> " + Keywords[index] + " is keyword")
+      Convol.push([1,index])
+      console.log(Convol)
       return on
   return off
 
-isNumber = (str) ->
+isNumber = (str,command) ->
   if "0" <= str <= "9"
     console.log("courseos@razumov:~> " + str + " is number")
     return on
   return off
 
-isSeparator = (str) ->
+isSeparator = (str,command) ->
   for word, index in Separators
     if word is str
       console.log("courseos@razumov:~> " + Separators[index] + " is separator")
       return on
   return off
 
-isLiteral = (str) ->
+isLiteral = (str,command) ->
   if ("A" <= str <= "Z")
-    console.log("courseos@razumov:~> " + str + " is literal")
+    flag = false
+    for word in Literals
+      if word[0] is str
+        console.log("courseos@razumov:~> " + str + " is literal")
+        flag = true
+    if flag is off
+      Literals.push([str,undefined,undefined])
+      Convol.push([3,Literals.length-1])
     return on
   return off
+
+#########################
+#Синтаксический анализатор
+
+MatrixWay = () ->
+
