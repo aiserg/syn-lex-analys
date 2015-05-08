@@ -1,11 +1,14 @@
 #Глобальное объявление
 Input = document.getElementById("input-area")
 Output = document.getElementById("output-area")
-OutputString = ""
+Input.value = ""
+Output.value = ""
+InputMassive = []
+
 #Инициализация по заданию
 Keywords = ["ROWVECTOR", "COLVECTOR", "MATRIX", "PRINT"]
 Separators = ["(", ",", ")", "=", "+", "-", "*", "^", "@"]
-Identifies = []
+Identifies = [""]
 Literals = []
 #Вызовы вспомогательных функций
 
@@ -15,76 +18,91 @@ Literals = []
 #### ####### ####### ####
 #########################
 #Логика
+console.log("courseos@razumov:~> Let's test!")
+
+#Separators. push([1,2])
 
 streamWords = ->
   stage = Input.value
+  num_n = -1
   if event.keyCode is 13
-    lexicalAnalysis(stage)
+    for word in stage
+      for i in [0..word.length]
+        if word.charAt(i) is "\n" then num_n++
+    InputMassive = stage.split("\n")
+    console.log(InputMassive)
+    lexicalAnalysis(InputMassive,num_n)
 
-lexicalAnalysis = (stage) ->
-  stageLength = stage.length - '11'
-  preResult = ''
-  for i in [0..stageLength]
-    if stage.charAt(i) in Separators or stage.charAt(i) is '\n' or stage.charAt(i) is ' '
-      k = isKeyword(preResult)
-      l = off
-      if k is off then l = isLiteral(preResult)
-      n = isNumber(preResult)
-      if k is off and l is off and n is off then console.log("undefined symbol")
-      s = isSeparator(stage.charAt(i))
-      preResult = ''
+lexicalAnalysis = (arr,n) ->
+  word = arr[n]
+  word = word.replace(/\s+$/, "");
+  preResult = ""
+  for i in [0..word.length]
+    #console.log(word.charAt(i))
+    if word.charAt(i) in Separators or word.charAt(i) is ' ' or i is word.length
+      iK = isKeyword(preResult)
+      if iK is off then iL = isLiteral(preResult)
+      iN = isNumber(preResult)
+      iS = isSeparator(word.charAt(i))
+
+      if iK is on
+        preResult = ""
+        continue
+
+      if iS is on
+        preResult = ""
+        continue
+
+      if iL is on
+        preResult = ""
+        continue
+
+      if iN is on
+        preResult = ""
+        continue
+
+      if word.charAt(i-1) in Separators then continue
+      if word.charAt(i-1) is " " then continue
+      if word.charAt(i) is "" then continue
+
+      console.log("undefined symbol")
+
+      preResult = ""
+
       continue
-
-    preResult += stage.charAt(i)
-
-
+    preResult += word.charAt(i)
 
 Input.addEventListener('keyup', streamWords, false)
 
 #       #       #       #
-##     ###     ###     ##innerhtml очистить
-###   #####  #####   ###
+##     ###     ###     ##
+###   ### ##  #####   ###
 #### ####### ####### ####
 #########################
-lineNumbers = ->
-  highLine = document.getElementById("high-line-numbers")
-  lowLine = document.getElementById("low-line-numbers")
-  for i in [1..50]
-    highLine.innerHTML += i + "\n"
-    lowLine.innerHTML += i + "\n"
-lineNumbers()
+#Вспомогательные функции
 
 isKeyword = (str) ->
   for word, index in Keywords
     if word is str
-      console.log(Keywords[index] + " keyword")
+      console.log("courseos@razumov:~> " + Keywords[index] + " is keyword")
       return on
   return off
 
 isNumber = (str) ->
   if "0" <= str <= "9"
-    console.log(str + " number  ")
+    console.log("courseos@razumov:~> " + str + " is number")
     return on
-  else return off
+  return off
 
 isSeparator = (str) ->
   for word, index in Separators
     if word is str
-      console.log(Separators[index] + " seporator")
+      console.log("courseos@razumov:~> " + Separators[index] + " is separator")
       return on
   return off
 
 isLiteral = (str) ->
   if ("A" <= str <= "Z")
-    console.log(str + " literal")
+    console.log("courseos@razumov:~> " + str + " is literal")
     return on
-  else return off
-
-
-###
-output = (answer) ->
-   Output.innerHTML = "courseos@razumov:~>  " + answer
-
-answer = ''
-output(answer)
-###
+  return off
