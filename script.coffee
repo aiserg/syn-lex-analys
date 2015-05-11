@@ -31,7 +31,7 @@ streamWords = ->
     InputMassive = stage.split("\n")
     lexicalAnalysis(InputMassive,num_n)
     Convol.push([0,0]) #new command
-    syntaxAnalys(num_n)
+    syntaxAnalys()
 
 lexicalAnalysis = (arr,n) ->
   word = arr[n]
@@ -78,30 +78,86 @@ Input.addEventListener('keyup', streamWords, false)
 
 #########################
 #Синтаксический анализатор
-syntaxAnalys = (n) ->
+syntaxAnalys = () ->
 
   if Convol[0][0] is 1 and Convol[0][1] is 0 #ROW
     if Convol[1][0] is 3 #if literal
-      if Literals[Convol[1][1]][1] is off and Literals[Convol[1][1]][2] is off and Literals[Convol[1][1]][3] is off #if unused
-        if Convol[2][0] is 2 and Convol[2][1] is 0
-          if Convol[3][0] is 4
-            if Convol[4][0] is 2 and Convol[4][1] is 1
-              if Convol[5][0] is 4
-                if Convol[6][0] is 2 and Convol[6][1] is 2
-                  if Convol[7][0] is 0
-                    Literals[Convol[1][1]][3] = "ROWVECTOR"
+      if Literals[Convol[1][1]][1] is off and Literals[Convol[1][1]][3] is off and Literals[Convol[1][1]][5] is off #if unused
+        if Convol[2][0] is 2 and Convol[2][1] is 0 #if "("
+          if Convol[3][0] is 4 #if num1
+            if Convol[4][0] is 2 and Convol[4][1] is 1 #if ","
+              if Convol[5][0] is 4 #if num2
+                if Convol[6][0] is 2 and Convol[6][1] is 2 #if ")"
+                  if Convol[7][0] is 0 #if end of command
+                    Literals[Convol[1][1]][5] = "ROWVECTOR"
                     Literals[Convol[1][1]][1] = Convol[3][1]
                     Literals[Convol[1][1]][2] = Convol[5][1]
                     console.log(Convol)
                     console.log(Literals)
-                    Convol = []
+                    deleteConvol()
 
-  ###if Convol[0][0] is 1 and Convol[0][1] is 1
-    console.log("COL")
+  if Convol[0][0] is 1 and Convol[0][1] is 1
+    if Convol[1][0] is 3 #if literal
+      if Literals[Convol[1][1]][1] is off and Literals[Convol[1][1]][2] is off and Literals[Convol[1][1]][3] is off #if unused
+        if Convol[2][0] is 2 and Convol[2][1] is 0 #if "("
+          if Convol[3][0] is 4 #if num1
+            if Convol[4][0] is 2 and Convol[4][1] is 1 #if ","
+              if Convol[5][0] is 4 #if num2
+                if Convol[6][0] is 2 and Convol[6][1] is 2 #if ")"
+                  if Convol[7][0] is 0 #if end of command
+                    Literals[Convol[1][1]][5] = "COLVECTOR"
+                    Literals[Convol[1][1]][1] = Convol[3][1]
+                    Literals[Convol[1][1]][2] = Convol[5][1]
+                    console.log(Convol)
+                    console.log(Literals)
+                    deleteConvol()
+
   if Convol[0][0] is 1 and Convol[0][1] is 2
-    console.log("MATRIX")
-  if Convol[0][0] is 1 and Convol[0][1] is 3 #PRINT
-    console.log("PRIIIINT")###
+    if Convol[1][0] is 3 #if literal
+      if Literals[Convol[1][1]][1] is off and Literals[Convol[1][1]][2] is off and Literals[Convol[1][1]][3] is off #if unused
+        if Convol[2][0] is 2 and Convol[2][1] is 0 #if "("
+          if Convol[3][0] is 2 and Convol[3][1] is 0 #if "("
+            if Convol[4][0] is 4 #if num1
+              if Convol[5][0] is 2 and Convol[5][1] is 1 #if ","
+                if Convol[6][0] is 4 #if num2
+                  if Convol[7][0] is 2 and Convol[7][1] is 2 #if ")"
+                    if Convol[8][0] is 2 and Convol[8][1] is 0 #if "("
+                      if Convol[9][0] is 4 #if num3
+                        if Convol[10][0] is 2 and Convol[10][1] is 1 #if ","
+                          if Convol[11][0] is 4 #if num4
+                            if Convol[12][0] is 2 and Convol[12][1] is 2 #if ")"
+                              if Convol[13][0] is 2 and Convol[13][1] is 2 #if ")"
+                                if Convol[14][0] is 0 #if end of command
+                                  Literals[Convol[1][1]][5] = "MATRIX"
+                                  Literals[Convol[1][1]][1] = Convol[4][1]
+                                  Literals[Convol[1][1]][2] = Convol[6][1]
+                                  Literals[Convol[1][1]][3] = Convol[9][1]
+                                  Literals[Convol[1][1]][4] = Convol[11][1]
+                                  console.log(Convol)
+                                  console.log(Literals)
+                                  deleteConvol()
+
+  if Convol[0][0] is 1 and Convol[0][1] is 3
+    if Convol[1][0] is 2 and Convol[1][1] is 0 #if "("
+      if Convol[2][0] is 3 #if literal
+        if Convol[3][0] is 2 and Convol[3][1] is 2 #if ")"
+          if Convol[4][0] is 0 #if end of command
+            for word in Literals
+              if word[0] is Literals[Convol[2][1]][0] and Literals[Convol[2][1]][5] isnt off
+                console.log("PRINT IS...")                                       ############ DO SOMETHING
+                deleteConvol()
+
+
+  if Convol[0][0] is 3
+    for word in Literals
+      if word[0] is Literals[Convol[0][1]][0] and Literals[Convol[0][1]][5] is "ROWVECTOR" or Literals[Convol[0][1]][5] is "COLVECTOR"
+        if Convol[1][0] is 2 and Convol[1][1] is 0 #if "("
+          if Convol[2][0] is 4 and Convol[2][1] is '1' or Convol[2][1] is '2'
+            if Convol[3][0] is 2 and Convol[3][1] is 2 #if ")"
+              if Convol[4][0] is 0 #if end of command
+                console.log("PRINT IS #{Literals[Convol[0][1]][Convol[2][1]]}")
+                deleteConvol()
+                
 
 
 
@@ -112,12 +168,11 @@ syntaxAnalys = (n) ->
 
 
 
-#       #       #       #
-##     ###     ###     ##
-###   ### ##  #####   ###
-#### ####### ####### ####
-#########################
+
 #Вспомогательные функции
+
+deleteConvol = () ->
+  Convol = []
 
 isKeyword = (str,command) ->
   for word, index in Keywords
@@ -152,7 +207,7 @@ isLiteral = (str,command) ->
         flag = true
     if flag is off
       console.log("courseos@razumov:~> " + str + " is new literal")
-      Literals.push([str,off,off,off]) #name value1 value2 type
+      Literals.push([str,off,off,off,off,off]) #name value1 value2 type
       console.log(Literals[0])
       Convol.push([3,Literals.length-1])
     return on
