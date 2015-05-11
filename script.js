@@ -100,7 +100,7 @@
   Input.addEventListener('keyup', streamWords, false);
 
   syntaxAnalys = function() {
-    var j, k, len, len1, results, word;
+    var j, k, l, len, len1, len2, results, word;
     if (Convol[0][0] === 1 && Convol[0][1] === 0) {
       if (Convol[1][0] === 3) {
         if (Literals[Convol[1][1]][1] === false && Literals[Convol[1][1]][3] === false && Literals[Convol[1][1]][5] === false) {
@@ -207,7 +207,6 @@
       }
     }
     if (Convol[0][0] === 3) {
-      results = [];
       for (k = 0, len1 = Literals.length; k < len1; k++) {
         word = Literals[k];
         if (word[0] === Literals[Convol[0][1]][0] && Literals[Convol[0][1]][5] === "ROWVECTOR" || Literals[Convol[0][1]][5] === "COLVECTOR") {
@@ -215,8 +214,45 @@
             if (Convol[2][0] === 4 && Convol[2][1] === '1' || Convol[2][1] === '2') {
               if (Convol[3][0] === 2 && Convol[3][1] === 2) {
                 if (Convol[4][0] === 0) {
-                  console.log("PRINT IS " + Literals[Convol[0][1]][Convol[2][1]]);
-                  results.push(deleteConvol());
+                  console.log("VECTOR " + Literals[Convol[0][1]][Convol[2][1]]);
+                  deleteConvol();
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    if (Convol[0][0] === 3) {
+      results = [];
+      for (l = 0, len2 = Literals.length; l < len2; l++) {
+        word = Literals[l];
+        if (word[0] === Literals[Convol[0][1]][0] && Literals[Convol[0][1]][5] === "MATRIX") {
+          if (Convol[1][0] === 2 && Convol[1][1] === 0) {
+            if (Convol[2][0] === 4 && Convol[2][1] === '1' || Convol[2][1] === '2') {
+              if (Convol[3][0] === 2 && Convol[3][1] === 1) {
+                if (Convol[4][0] === 4 && Convol[4][1] === '1' || Convol[4][1] === '2') {
+                  if (Convol[5][0] === 2 && Convol[5][1] === 2) {
+                    if (Convol[6][0] === 0) {
+                      if (Convol[2][1] === '1' && Convol[4][1] === '1') {
+                        console.log("MATRIX " + Literals[Convol[0][1]][1]);
+                      }
+                      if (Convol[2][1] === '1' && Convol[4][1] === '2') {
+                        console.log("MATRIX " + Literals[Convol[0][1]][2]);
+                      }
+                      if (Convol[2][1] === '2' && Convol[4][1] === '1') {
+                        console.log("MATRIX " + Literals[Convol[0][1]][3]);
+                      }
+                      if (Convol[2][1] === '2' && Convol[4][1] === '2') {
+                        console.log("MATRIX " + Literals[Convol[0][1]][4]);
+                      }
+                      results.push(deleteConvol());
+                    } else {
+                      results.push(void 0);
+                    }
+                  } else {
+                    results.push(void 0);
+                  }
                 } else {
                   results.push(void 0);
                 }

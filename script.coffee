@@ -155,10 +155,23 @@ syntaxAnalys = () ->
           if Convol[2][0] is 4 and Convol[2][1] is '1' or Convol[2][1] is '2'
             if Convol[3][0] is 2 and Convol[3][1] is 2 #if ")"
               if Convol[4][0] is 0 #if end of command
-                console.log("PRINT IS #{Literals[Convol[0][1]][Convol[2][1]]}")
+                console.log("VECTOR #{Literals[Convol[0][1]][Convol[2][1]]}")
                 deleteConvol()
-                
 
+  if Convol[0][0] is 3
+    for word in Literals
+      if word[0] is Literals[Convol[0][1]][0] and Literals[Convol[0][1]][5] is "MATRIX"
+        if Convol[1][0] is 2 and Convol[1][1] is 0 #if "("
+          if Convol[2][0] is 4 and Convol[2][1] is '1' or Convol[2][1] is '2'
+            if Convol[3][0] is 2 and Convol[3][1] is 1 #if ","
+              if Convol[4][0] is 4 and Convol[4][1] is '1' or Convol[4][1] is '2'
+                if Convol[5][0] is 2 and Convol[5][1] is 2 #if ")"
+                  if Convol[6][0] is 0 #if end of command
+                    if Convol[2][1] is '1' and Convol[4][1] is '1' then console.log("MATRIX #{Literals[Convol[0][1]][1]}")
+                    if Convol[2][1] is '1' and Convol[4][1] is '2' then console.log("MATRIX #{Literals[Convol[0][1]][2]}")
+                    if Convol[2][1] is '2' and Convol[4][1] is '1' then console.log("MATRIX #{Literals[Convol[0][1]][3]}")
+                    if Convol[2][1] is '2' and Convol[4][1] is '2' then console.log("MATRIX #{Literals[Convol[0][1]][4]}")
+                    deleteConvol()
 
 
 
