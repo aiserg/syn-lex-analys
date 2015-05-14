@@ -1,4 +1,4 @@
-#Глобальное объявление
+#Глобальные
 Input = document.getElementById("input-area")
 Output = document.getElementById("output-area")
 Input.value = ""
@@ -6,12 +6,12 @@ Output.value = ""
 InputMassive = []
 Convol = []
 value_command = []
+preRes = []
 
 #Инициализация по заданию
 Keywords = ["ROWVECTOR", "COLVECTOR", "MATRIX", "PRINT"]  #1 in Convol
 Separators = ["(", ",", ")", "=", "+", "-", "*", "^", "@"]  #2 in Convol
 Literals = []   #3 in Convol
-#Вызовы вспомогательных функций
 
 #       #       #       #
 ##     ###     ###     ##
@@ -92,8 +92,6 @@ syntaxAnalys = () ->
                     Literals[Convol[1][1]][5] = "ROWVECTOR"
                     Literals[Convol[1][1]][1] = Convol[3][1]
                     Literals[Convol[1][1]][2] = Convol[5][1]
-                    console.log(Convol)
-                    console.log(Literals)
                     deleteConvol()
 
   if Convol[0][0] is 1 and Convol[0][1] is 1
@@ -108,8 +106,6 @@ syntaxAnalys = () ->
                     Literals[Convol[1][1]][5] = "COLVECTOR"
                     Literals[Convol[1][1]][1] = Convol[3][1]
                     Literals[Convol[1][1]][2] = Convol[5][1]
-                    console.log(Convol)
-                    console.log(Literals)
                     deleteConvol()
 
   if Convol[0][0] is 1 and Convol[0][1] is 2
@@ -133,8 +129,6 @@ syntaxAnalys = () ->
                                   Literals[Convol[1][1]][2] = Convol[6][1]
                                   Literals[Convol[1][1]][3] = Convol[9][1]
                                   Literals[Convol[1][1]][4] = Convol[11][1]
-                                  console.log(Convol)
-                                  console.log(Literals)
                                   deleteConvol()
 
   if Convol[0][0] is 1 and Convol[0][1] is 3
@@ -173,11 +167,81 @@ syntaxAnalys = () ->
                     if Convol[2][1] is '2' and Convol[4][1] is '2' then console.log("MATRIX #{Literals[Convol[0][1]][4]}")
                     deleteConvol()
 
+  #Math operations
+  if Convol[0][0] is 3
+    for word in Literals
+      if word[0] is Literals[Convol[0][1]][0]
+        if Literals[Convol[0][1]][5] is "ROWVECTOR" or Literals[Convol[0][1]][5] is "COLVECTOR" or Literals[Convol[0][1]][5] is "MATRIX"
+          if Convol[1][0] is 2 and Convol[1][1] is 3 #if "="
+           doBrackets()
+           #doUnar()
+
+               #console.log("( is #{index} number")
 
 
 
 
 
+
+
+
+
+#Математические функции
+
+
+doBrackets = () ->
+
+  for word, index1 in Convol
+    if word[0] is 2 and word[1] is 0   # "("
+      first_br = index1+1
+      console.log("S(")
+      index2 = first_br+1
+      while index2 < Convol.length
+        console.log(index2)
+        if Convol[index2][0] is 2 and Convol[index2][1] is 2   # ")"
+          second_br = index2-1
+          console.log("S) ")
+          doUnar(first_br,second_br)
+          for i in [first_br..second_br]
+            console.log(Convol[i][0] + "is skob")
+          break
+        index2++
+
+doUnar = (begin_smb,end_smb) -> #!!!end_smb is ')'!
+
+  for word, index in Convol[begin_smb..end_smb]
+    if word[0] is 2 and word[1] is 7  # "^" TRANSPON
+      if Convol[index-1][0] is 3 and Literals[Convol[index-1][1]][5] is "ROWVECTOR"
+        preRes.push Literals[Convol[index-1][1]]
+        preRes[preRes.length-1][5] = "COLVECTOR"
+        console.log(preRes)
+        continue
+      else if Convol[index-1][0] is 3 and Literals[Convol[index-1][1]][5] is "COLVECTOR"
+        preRes.push Literals[Convol[index-1][1]]
+        preRes[preRes.length-1][5] = "ROWVECTOR"
+        console.log(preRes)
+        continue
+    if word[0] is 2 and word[1] is 8  # "@" REMATRIX
+      if Convol[index-1][0] is 3 and Literals[Convol[index-1][1]][5] is "MATRIX"
+        preRes.push Literals[Convol[index-1][1]]
+        a = preRes[preRes.length-1][2]
+        preRes[preRes.length-1][2] = preRes[preRes.length-1][3]
+        preRes[preRes.length-1][3] = a
+        console.log(preRes)
+        continue
+
+
+
+
+
+
+
+
+doTranspon = (name,type_v) ->
+  for word in Literals
+    if word[0] is name and word[5] is "ROWVECTOR" or word[5] is "COLVECTOR"
+      if type_v is "ROWVECTOR" then word[5] = "COLVECTOR"
+      if word[5] is "COLVECTOR" then word[5] = "ROWVECTOR"
 
 
 
@@ -221,11 +285,6 @@ isLiteral = (str,command) ->
     if flag is off
       console.log("courseos@razumov:~> " + str + " is new literal")
       Literals.push([str,off,off,off,off,off]) #name value1 value2 type
-      console.log(Literals[0])
       Convol.push([3,Literals.length-1])
     return on
   return off
-
-
-
-
