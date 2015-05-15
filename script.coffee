@@ -6,7 +6,9 @@ Output.value = ""
 InputMassive = []
 Convol = []
 value_command = []
-preRes = []
+
+turn = []
+ConvRes = []
 
 #Инициализация по заданию
 Keywords = ["ROWVECTOR", "COLVECTOR", "MATRIX", "PRINT"]  #1 in Convol
@@ -174,19 +176,15 @@ syntaxAnalys = () ->
         if Literals[Convol[0][1]][5] is "ROWVECTOR" or Literals[Convol[0][1]][5] is "COLVECTOR" or Literals[Convol[0][1]][5] is "MATRIX"
           if Convol[1][0] is 2 and Convol[1][1] is 3 #if "="
            doBrackets()
-           #doUnar()
-
-               #console.log("( is #{index} number")
-
-
-
-
-
-
+           doPriority(2,Convol.length-1)
+           console.log(turn)
 
 
 
 #Математические функции
+
+
+
 
 
 doBrackets = () ->
@@ -194,20 +192,44 @@ doBrackets = () ->
   for word, index1 in Convol
     if word[0] is 2 and word[1] is 0   # "("
       first_br = index1+1
-      console.log("S(")
       index2 = first_br+1
       while index2 < Convol.length
-        console.log(index2)
         if Convol[index2][0] is 2 and Convol[index2][1] is 2   # ")"
           second_br = index2-1
-          console.log("S) ")
-          doUnar(first_br,second_br)
-          for i in [first_br..second_br]
-            console.log(Convol[i][0] + "is skob")
+          doPriority(first_br,second_br)
           break
         index2++
 
-doUnar = (begin_smb,end_smb) -> #!!!end_smb is ')'!
+
+doPriority = (begin_smb,end_smb)-> #Love you!
+
+  for word1, index1 in Convol[begin_smb..end_smb]
+    if Convol[Number(begin_smb+index1)][0] is 2 and Convol[Number(begin_smb+index1)][1] is 7  # "^" TRANSPON
+      unless Number(begin_smb+index1) in turn
+        turn.push(Number(begin_smb+index1))
+    if Convol[Number(begin_smb+index1)][0] is 2 and Convol[Number(begin_smb+index1)][1] is 8  # @
+      unless Number(begin_smb+index1) in turn
+        turn.push(Number(begin_smb+index1))
+
+  for word2, index2 in Convol[begin_smb..end_smb]
+    if Convol[Number(begin_smb+index2)][0] is 2 and Convol[Number(begin_smb+index2)][1] is 6  # "*"
+      unless Number(begin_smb+index2) in turn
+        turn.push(Number(begin_smb+index2))
+
+  for word3, index3 in Convol[begin_smb..end_smb]
+    if Convol[Number(begin_smb+index3)][0] is 2 and Convol[Number(begin_smb+index3)][1] is 4  # "+" TRANSPON
+      unless Number(begin_smb+index3) in turn
+        turn.push(Number(begin_smb+index3))
+    if Convol[Number(begin_smb+index3)][0] is 2 and Convol[Number(begin_smb+index3)][1] is 5  # -
+      unless Number(begin_smb+index3) in turn
+        turn.push(Number(begin_smb+index3))
+
+
+
+
+
+
+doUnar = (begin_smb,end_smb) ->
 
   for word, index in Convol[begin_smb..end_smb]
     if word[0] is 2 and word[1] is 7  # "^" TRANSPON
@@ -232,20 +254,6 @@ doUnar = (begin_smb,end_smb) -> #!!!end_smb is ')'!
 
 
 
-
-
-
-
-
-doTranspon = (name,type_v) ->
-  for word in Literals
-    if word[0] is name and word[5] is "ROWVECTOR" or word[5] is "COLVECTOR"
-      if type_v is "ROWVECTOR" then word[5] = "COLVECTOR"
-      if word[5] is "COLVECTOR" then word[5] = "ROWVECTOR"
-
-
-
-
 #Вспомогательные функции
 
 deleteConvol = () ->
@@ -254,23 +262,21 @@ deleteConvol = () ->
 isKeyword = (str,command) ->
   for word, index in Keywords
     if word is str
-      Convol.push([1,index])
+      Convol.push([1,index,on])
       return on
   return off
 
 isNumber = (str,command) ->
   if "0" <= str <= "9"
-    Convol.push([4,str])
+    Convol.push([4,str,on])
     value_command.push(str)
-    console.log("courseos@razumov:~> " + str + " is number")
     return on
   return off
 
 isSeparator = (str,command) ->
   for word, index in Separators
     if word is str
-      Convol.push([2, index])
-      console.log("courseos@razumov:~> " + Separators[index] + " is separator")
+      Convol.push([2,index,on])
       return on
   return off
 
@@ -279,12 +285,10 @@ isLiteral = (str,command) ->
     flag = false
     for word, index in Literals
       if word[0] is str
-        Convol.push([3, index])
-        console.log("courseos@razumov:~> " + str + " is literal")
+        Convol.push([3,index,on])
         flag = true
     if flag is off
-      console.log("courseos@razumov:~> " + str + " is new literal")
       Literals.push([str,off,off,off,off,off]) #name value1 value2 type
-      Convol.push([3,Literals.length-1])
+      Convol.push([3,Literals.length-1,on])
     return on
   return off
