@@ -204,8 +204,8 @@ doMath = () ->
         ConvRes[ConvRes.length-1][2] = ConvRes[ConvRes.length-1][3]
         ConvRes[ConvRes.length-1][3] = temp_m
         Convol[word-1][2] = ConvRes[ConvRes.length-1]
-    console.log(ConvRes)
-    console.log(Convol)
+    #console.log(ConvRes)
+    #console.log(Convol)
 
     if Convol[word][1] is 6
       first_num = ''
@@ -242,9 +242,55 @@ doMath = () ->
       console.log(second_num+" second_num")
       console.log(second_type+" second_type")
 
-
-
-
+      if first_type is "MATRIX" and second_type is "MATRIX"
+        if Convol[first_num][2] is 'use' and Convol[second_num][2] is 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Literals[Convol[first_num][1]][1]*Literals[Convol[second_num][1]][1]+Literals[Convol[first_num][1]][2]*Literals[Convol[second_num][1]][3]
+          ConvRes[ConvRes.length-1][2] = Literals[Convol[first_num][1]][1]*Literals[Convol[second_num][1]][2]+Literals[Convol[first_num][1]][2]*Literals[Convol[second_num][1]][4]
+          ConvRes[ConvRes.length-1][3] = Literals[Convol[first_num][1]][3]*Literals[Convol[second_num][1]][1]+Literals[Convol[first_num][1]][4]*Literals[Convol[second_num][1]][3]
+          ConvRes[ConvRes.length-1][4] = Literals[Convol[first_num][1]][3]*Literals[Convol[second_num][1]][2]+Literals[Convol[first_num][1]][4]*Literals[Convol[second_num][1]][4]
+          ConvRes[ConvRes.length-1][5] = "MATRIX"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] is 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Literals[Convol[first_num][1]][1]*Convol[second_num][2][1]+Literals[Convol[first_num][1]][2]*Convol[second_num][2][3]
+          ConvRes[ConvRes.length-1][2] = Literals[Convol[first_num][1]][1]*Convol[second_num][2][2]+Literals[Convol[first_num][1]][2]*Convol[second_num][2][4]
+          ConvRes[ConvRes.length-1][3] = Literals[Convol[first_num][1]][3]*Convol[second_num][2][1]+Literals[Convol[first_num][1]][4]*Convol[second_num][2][3]
+          ConvRes[ConvRes.length-1][4] = Literals[Convol[first_num][1]][3]*Convol[second_num][2][2]+Literals[Convol[first_num][1]][4]*Convol[second_num][2][4]
+          ConvRes[ConvRes.length-1][5] = "MATRIX"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] is 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Convol[first_num][2][1]*Literals[Convol[second_num][1]][1]+Convol[first_num][2][2]*Literals[Convol[second_num][1]][3]
+          ConvRes[ConvRes.length-1][2] = Convol[first_num][2][1]*Literals[Convol[second_num][1]][2]+Convol[first_num][2][2]*Literals[Convol[second_num][1]][4]
+          ConvRes[ConvRes.length-1][3] = Convol[first_num][2][3]*Literals[Convol[second_num][1]][1]+Convol[first_num][2][4]*Literals[Convol[second_num][1]][3]
+          ConvRes[ConvRes.length-1][4] = Convol[first_num][2][3]*Literals[Convol[second_num][1]][2]+Convol[first_num][2][4]*Literals[Convol[second_num][1]][4]
+          ConvRes[ConvRes.length-1][5] = "MATRIX"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Convol[first_num][2][1]*Convol[second_num][2][1]+Convol[first_num][2][2]*Convol[second_num][2][3]
+          ConvRes[ConvRes.length-1][2] = Convol[first_num][2][1]*Convol[second_num][2][2]+Convol[first_num][2][2]*Convol[second_num][2][4]
+          ConvRes[ConvRes.length-1][3] = Convol[first_num][2][3]*Convol[second_num][2][1]+Convol[first_num][2][4]*Convol[second_num][2][3]
+          ConvRes[ConvRes.length-1][4] = Convol[first_num][2][3]*Convol[second_num][2][2]+Convol[first_num][2][4]*Convol[second_num][2][4]
+          ConvRes[ConvRes.length-1][5] = "MATRIX"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
 
 doBrackets = () ->
 
