@@ -312,7 +312,7 @@
           if (Convol[i][2] !== false) {
             if (Convol[i][0] !== 2) {
               if (Convol[i][2] === 'use' && Convol[i][0] === 4) {
-                first_num = Convol[i][1];
+                first_num = i;
                 first_type = 'Number';
                 break;
               } else if (Convol[i][2] === 'use') {
@@ -331,7 +331,7 @@
           if (Convol[n][2] !== false) {
             if (Convol[n][0] !== 2) {
               if (Convol[n][2] === 'use' && Convol[n][0] === 4) {
-                second_num = Convol[n][1];
+                second_num = n;
                 second_type = 'Number';
                 break;
               } else if (Convol[n][2] === 'use') {
@@ -362,7 +362,7 @@
             Convol[first_num][2] = ConvRes[ConvRes.length - 1];
             Convol[second_num][2] = false;
             console.log(Convol);
-            results.push(console.log(ConvRes));
+            console.log(ConvRes);
           } else if (Convol[first_num][2] === 'use' && Convol[second_num][2] !== 'use') {
             A = [];
             ConvRes.push(A);
@@ -374,7 +374,7 @@
             Convol[first_num][2] = ConvRes[ConvRes.length - 1];
             Convol[second_num][2] = false;
             console.log(Convol);
-            results.push(console.log(ConvRes));
+            console.log(ConvRes);
           } else if (Convol[first_num][2] !== 'use' && Convol[second_num][2] === 'use') {
             A = [];
             ConvRes.push(A);
@@ -386,7 +386,7 @@
             Convol[first_num][2] = ConvRes[ConvRes.length - 1];
             Convol[second_num][2] = false;
             console.log(Convol);
-            results.push(console.log(ConvRes));
+            console.log(ConvRes);
           } else if (Convol[first_num][2] !== 'use' && Convol[second_num][2] !== 'use') {
             A = [];
             ConvRes.push(A);
@@ -397,6 +397,60 @@
             ConvRes[ConvRes.length - 1][5] = "MATRIX";
             Convol[first_num][2] = ConvRes[ConvRes.length - 1];
             Convol[second_num][2] = false;
+            console.log(Convol);
+            console.log(ConvRes);
+          }
+        }
+        if (first_type === "MATRIX" && second_type === "Number") {
+          if (Convol[first_num][2] === 'use') {
+            A = [];
+            ConvRes.push(A);
+            ConvRes[ConvRes.length - 1][1] = Literals[Convol[first_num][1]][1] * Convol[second_num][1];
+            ConvRes[ConvRes.length - 1][2] = Literals[Convol[first_num][1]][2] * Convol[second_num][1];
+            ConvRes[ConvRes.length - 1][3] = Literals[Convol[first_num][1]][3] * Convol[second_num][1];
+            ConvRes[ConvRes.length - 1][4] = Literals[Convol[first_num][1]][4] * Convol[second_num][1];
+            ConvRes[ConvRes.length - 1][5] = "MATRIX";
+            Convol[first_num][2] = ConvRes[ConvRes.length - 1];
+            Convol[second_num][2] = false;
+            console.log(Convol);
+            console.log(ConvRes);
+          } else if (Convol[first_num][2] !== 'use') {
+            A = [];
+            ConvRes.push(A);
+            ConvRes[ConvRes.length - 1][1] = Convol[first_num][2][1] * Convol[second_num][1];
+            ConvRes[ConvRes.length - 1][2] = Convol[first_num][2][2] * Convol[second_num][1];
+            ConvRes[ConvRes.length - 1][3] = Convol[first_num][2][3] * Convol[second_num][1];
+            ConvRes[ConvRes.length - 1][4] = Convol[first_num][2][4] * Convol[second_num][1];
+            ConvRes[ConvRes.length - 1][5] = "MATRIX";
+            Convol[first_num][2] = ConvRes[ConvRes.length - 1];
+            Convol[second_num][2] = false;
+            console.log(Convol);
+            console.log(ConvRes);
+          }
+        }
+        if (first_type === "Number" && second_type === "MATRIX") {
+          if (Convol[second_num][2] === 'use') {
+            A = [];
+            ConvRes.push(A);
+            ConvRes[ConvRes.length - 1][1] = Literals[Convol[second_num][1]][1] * Convol[first_num][1];
+            ConvRes[ConvRes.length - 1][2] = Literals[Convol[second_num][1]][2] * Convol[first_num][1];
+            ConvRes[ConvRes.length - 1][3] = Literals[Convol[second_num][1]][3] * Convol[first_num][1];
+            ConvRes[ConvRes.length - 1][4] = Literals[Convol[second_num][1]][4] * Convol[first_num][1];
+            ConvRes[ConvRes.length - 1][5] = "MATRIX";
+            Convol[second_num][2] = ConvRes[ConvRes.length - 1];
+            Convol[first_num][2] = false;
+            console.log(Convol);
+            results.push(console.log(ConvRes));
+          } else if (Convol[second_num][2] !== 'use') {
+            A = [];
+            ConvRes.push(A);
+            ConvRes[ConvRes.length - 1][1] = Convol[second_num][2][1] * Convol[first_num][1];
+            ConvRes[ConvRes.length - 1][2] = Convol[second_num][2][2] * Convol[first_num][1];
+            ConvRes[ConvRes.length - 1][3] = Convol[second_num][2][3] * Convol[first_num][1];
+            ConvRes[ConvRes.length - 1][4] = Convol[second_num][2][4] * Convol[first_num][1];
+            ConvRes[ConvRes.length - 1][5] = "MATRIX";
+            Convol[second_num][2] = ConvRes[ConvRes.length - 1];
+            Convol[first_num][2] = false;
             console.log(Convol);
             results.push(console.log(ConvRes));
           } else {

@@ -34,8 +34,8 @@
       <file leaf-file-name="script.coffee" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/script.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.76996803">
-              <caret line="238" column="16" selection-start-line="238" selection-start-column="16" selection-end-line="238" selection-end-column="16" />
+            <state vertical-scroll-proportion="-2.6517572">
+              <caret line="232" column="36" selection-start-line="232" selection-start-column="36" selection-end-line="232" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -45,8 +45,23 @@
         <entry file="file://$PROJECT_DIR$/script.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="383" column="25" selection-start-line="383" selection-start-column="25" selection-end-line="383" selection-end-column="25" />
-              <folding />
+              <caret line="439" column="25" selection-start-line="439" selection-start-column="25" selection-end-line="439" selection-end-column="25" />
+              <folding>
+                <marker date="1431733205444" expanded="true" signature="47:24880" placeholder="{...}" />
+                <marker date="1431733205444" expanded="true" signature="10158:20612" placeholder="{...}" />
+                <marker date="1431733205444" expanded="true" signature="10369:20588" placeholder="{...}" />
+                <marker date="1431733205444" expanded="true" signature="11369:20537" placeholder="{...}" />
+                <marker date="1431733205444" expanded="true" signature="11560:11790" placeholder="{...}" />
+                <marker date="1431733205444" expanded="true" signature="11600:11790" placeholder="{...}" />
+                <marker date="1431733205444" expanded="true" signature="11638:11790" placeholder="{...}" />
+                <marker date="1431733205444" expanded="true" signature="11704:11790" placeholder="{...}" />
+                <marker date="1431733205444" expanded="true" signature="12794:12811" placeholder="{...}" />
+                <marker date="1431733205444" expanded="true" signature="12794:12825" placeholder="{...}" />
+                <marker date="1431733205444" expanded="true" signature="12794:12847" placeholder="{...}" />
+                <marker date="1431733205444" expanded="true" signature="13109:20480" placeholder="{...}" />
+                <marker date="1431733205444" expanded="true" signature="18605:19105" placeholder="{...}" />
+                <marker date="1431733205444" expanded="true" signature="20423:20470" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -674,15 +689,30 @@
     <entry file="file://$PROJECT_DIR$/script.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="383" column="25" selection-start-line="383" selection-start-column="25" selection-end-line="383" selection-end-column="25" />
-          <folding />
+          <caret line="439" column="25" selection-start-line="439" selection-start-column="25" selection-end-line="439" selection-end-column="25" />
+          <folding>
+            <marker date="1431733205444" expanded="true" signature="47:24880" placeholder="{...}" />
+            <marker date="1431733205444" expanded="true" signature="10158:20612" placeholder="{...}" />
+            <marker date="1431733205444" expanded="true" signature="10369:20588" placeholder="{...}" />
+            <marker date="1431733205444" expanded="true" signature="11369:20537" placeholder="{...}" />
+            <marker date="1431733205444" expanded="true" signature="11560:11790" placeholder="{...}" />
+            <marker date="1431733205444" expanded="true" signature="11600:11790" placeholder="{...}" />
+            <marker date="1431733205444" expanded="true" signature="11638:11790" placeholder="{...}" />
+            <marker date="1431733205444" expanded="true" signature="11704:11790" placeholder="{...}" />
+            <marker date="1431733205444" expanded="true" signature="12794:12811" placeholder="{...}" />
+            <marker date="1431733205444" expanded="true" signature="12794:12825" placeholder="{...}" />
+            <marker date="1431733205444" expanded="true" signature="12794:12847" placeholder="{...}" />
+            <marker date="1431733205444" expanded="true" signature="13109:20480" placeholder="{...}" />
+            <marker date="1431733205444" expanded="true" signature="18605:19105" placeholder="{...}" />
+            <marker date="1431733205444" expanded="true" signature="20423:20470" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/script.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.76996803">
-          <caret line="238" column="16" selection-start-line="238" selection-start-column="16" selection-end-line="238" selection-end-column="16" />
+        <state vertical-scroll-proportion="-2.6517572">
+          <caret line="232" column="36" selection-start-line="232" selection-start-column="36" selection-end-line="232" selection-end-column="36" />
           <folding />
         </state>
       </provider>
