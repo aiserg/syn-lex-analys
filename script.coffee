@@ -204,8 +204,6 @@ doMath = () ->
         ConvRes[ConvRes.length-1][2] = ConvRes[ConvRes.length-1][3]
         ConvRes[ConvRes.length-1][3] = temp_m
         Convol[word-1][2] = ConvRes[ConvRes.length-1]
-    #console.log(ConvRes)
-    #console.log(Convol)
 
     if Convol[word][1] is 6
       first_num = ''
@@ -218,24 +216,30 @@ doMath = () ->
             if Convol[i][2] is 'use' and Convol[i][0] is 4
               first_num = Convol[i][1] #значение
               first_type = 'Number'
+              break
             else if Convol[i][2] is 'use'
               first_num = i #адрес
               first_type = Literals[Convol[i][1]][5]
+              break
             else
               first_num = i
               first_type = Convol[i][2][5]
+              break
       for n in [word+1..Convol.length-2]
         unless Convol[n][2] is off
           if Convol[n][0] isnt 2
             if Convol[n][2] is 'use' and Convol[n][0] is 4
               second_num = Convol[n][1] #значение
               second_type = 'Number'
+              break
             else if Convol[n][2] is 'use'
               second_num = n #адрес
               second_type = Literals[Convol[n][1]][5]
+              break
             else
               second_num = n #адрес
               second_type = Convol[n][2][5]
+              break
 
       console.log(first_num+" first_num")
       console.log(first_type+" first_type")

@@ -314,12 +314,15 @@
               if (Convol[i][2] === 'use' && Convol[i][0] === 4) {
                 first_num = Convol[i][1];
                 first_type = 'Number';
+                break;
               } else if (Convol[i][2] === 'use') {
                 first_num = i;
                 first_type = Literals[Convol[i][1]][5];
+                break;
               } else {
                 first_num = i;
                 first_type = Convol[i][2][5];
+                break;
               }
             }
           }
@@ -330,12 +333,15 @@
               if (Convol[n][2] === 'use' && Convol[n][0] === 4) {
                 second_num = Convol[n][1];
                 second_type = 'Number';
+                break;
               } else if (Convol[n][2] === 'use') {
                 second_num = n;
                 second_type = Literals[Convol[n][1]][5];
+                break;
               } else {
                 second_num = n;
                 second_type = Convol[n][2][5];
+                break;
               }
             }
           }
