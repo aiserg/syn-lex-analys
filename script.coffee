@@ -178,10 +178,69 @@ syntaxAnalys = () ->
            doBrackets()
            doPriority(2,Convol.length-1)
            console.log(turn)
+           doMath()
+
 
 
 
 #Математические функции
+
+doMath = () ->
+  for word, index in turn
+    if Convol[word][1] is 7
+      if Literals[Convol[word-1][1]][5] is "ROWVECTOR"
+        ConvRes.push(Literals[Convol[word-1][1]])
+        ConvRes[ConvRes.length-1][5] = "COLVECTOR"
+        Convol[word-1][2] = ConvRes[ConvRes.length-1]
+      else if Literals[Convol[word-1][1]][5] is "COLVECTOR"
+        ConvRes.push(Literals[Convol[word-1][1]])
+        ConvRes[ConvRes.length-1][5] = "ROWVECTOR"
+        Convol[word-1][2] = ConvRes[ConvRes.length-1]
+
+    if Convol[word][1] is 8
+      if Literals[Convol[word-1][1]][5] is "MATRIX"
+        ConvRes.push(Literals[Convol[word-1][1]])
+        temp_m = ConvRes[ConvRes.length-1][2]
+        ConvRes[ConvRes.length-1][2] = ConvRes[ConvRes.length-1][3]
+        ConvRes[ConvRes.length-1][3] = temp_m
+        Convol[word-1][2] = ConvRes[ConvRes.length-1]
+    console.log(ConvRes)
+    console.log(Convol)
+
+    if Convol[word][1] is 6
+      first_num = ''
+      first_type = ''
+      second_num = ''
+      second_type = ''
+      for i in [word-1...1]
+        unless Convol[i][2] is off
+          if Convol[i][0] isnt 2
+            if Convol[i][2] is 'use' and Convol[i][0] is 4
+              first_num = Convol[i][1] #значение
+              first_type = 'Number'
+            else if Convol[i][2] is 'use'
+              first_num = i #адрес
+              first_type = Literals[Convol[i][1]][5]
+            else
+              first_num = i
+              first_type = Convol[i][2][5]
+      for n in [word+1..Convol.length-2]
+        unless Convol[n][2] is off
+          if Convol[n][0] isnt 2
+            if Convol[n][2] is 'use' and Convol[n][0] is 4
+              second_num = Convol[n][1] #значение
+              second_type = 'Number'
+            else if Convol[n][2] is 'use'
+              second_num = n #адрес
+              second_type = Literals[Convol[n][1]][5]
+            else
+              second_num = n #адрес
+              second_type = Convol[n][2][5]
+
+      console.log(first_num+" first_num")
+      console.log(first_type+" first_type")
+      console.log(second_num+" second_num")
+      console.log(second_type+" second_type")
 
 
 
@@ -224,36 +283,6 @@ doPriority = (begin_smb,end_smb)-> #Love you!
       unless Number(begin_smb+index3) in turn
         turn.push(Number(begin_smb+index3))
 
-
-
-
-
-
-doUnar = (begin_smb,end_smb) ->
-
-  for word, index in Convol[begin_smb..end_smb]
-    if word[0] is 2 and word[1] is 7  # "^" TRANSPON
-      if Convol[index-1][0] is 3 and Literals[Convol[index-1][1]][5] is "ROWVECTOR"
-        preRes.push Literals[Convol[index-1][1]]
-        preRes[preRes.length-1][5] = "COLVECTOR"
-        console.log(preRes)
-        continue
-      else if Convol[index-1][0] is 3 and Literals[Convol[index-1][1]][5] is "COLVECTOR"
-        preRes.push Literals[Convol[index-1][1]]
-        preRes[preRes.length-1][5] = "ROWVECTOR"
-        console.log(preRes)
-        continue
-    if word[0] is 2 and word[1] is 8  # "@" REMATRIX
-      if Convol[index-1][0] is 3 and Literals[Convol[index-1][1]][5] is "MATRIX"
-        preRes.push Literals[Convol[index-1][1]]
-        a = preRes[preRes.length-1][2]
-        preRes[preRes.length-1][2] = preRes[preRes.length-1][3]
-        preRes[preRes.length-1][3] = a
-        console.log(preRes)
-        continue
-
-
-
 #Вспомогательные функции
 
 deleteConvol = () ->
@@ -262,13 +291,13 @@ deleteConvol = () ->
 isKeyword = (str,command) ->
   for word, index in Keywords
     if word is str
-      Convol.push([1,index,on])
+      Convol.push([1,index])
       return on
   return off
 
 isNumber = (str,command) ->
   if "0" <= str <= "9"
-    Convol.push([4,str,on])
+    Convol.push([4,str,'use'])
     value_command.push(str)
     return on
   return off
@@ -276,7 +305,7 @@ isNumber = (str,command) ->
 isSeparator = (str,command) ->
   for word, index in Separators
     if word is str
-      Convol.push([2,index,on])
+      Convol.push([2,index])
       return on
   return off
 
@@ -285,10 +314,10 @@ isLiteral = (str,command) ->
     flag = false
     for word, index in Literals
       if word[0] is str
-        Convol.push([3,index,on])
+        Convol.push([3,index,'use'])
         flag = true
     if flag is off
       Literals.push([str,off,off,off,off,off]) #name value1 value2 type
-      Convol.push([3,Literals.length-1,on])
+      Convol.push([3,Literals.length-1,'use'])
     return on
   return off
