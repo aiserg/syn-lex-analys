@@ -143,15 +143,15 @@ syntaxAnalys = () ->
                   Output.value += Literals[Convol[2][1]][1]+" "
                   Output.value += Literals[Convol[2][1]][2]+"\n"
                   Output.value += Literals[Convol[2][1]][3]+" "
-                  Output.value += Literals[Convol[2][1]][4]+"\n"
+                  Output.value += Literals[Convol[2][1]][4]+"\n"+"\n"
                   deleteConvol()
                 if Literals[Convol[2][1]][5] is "COLVECTOR"
                   Output.value += Literals[Convol[2][1]][1]+"\n"
-                  Output.value += Literals[Convol[2][1]][2]+"\n"
+                  Output.value += Literals[Convol[2][1]][2]+"\n"+"\n"
                   deleteConvol()
                 if Literals[Convol[2][1]][5] is "ROWVECTOR"
                   Output.value += Literals[Convol[2][1]][1]+" "
-                  Output.value += Literals[Convol[2][1]][2]+"\n"
+                  Output.value += Literals[Convol[2][1]][2]+"\n"+"\n"
                   deleteConvol()
 
 
