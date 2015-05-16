@@ -5,7 +5,6 @@ Input.value = ""
 Output.value = ""
 InputMassive = []
 Convol = []
-value_command = []
 
 turn = []
 ConvRes = []
@@ -96,7 +95,7 @@ syntaxAnalys = () ->
                     Literals[Convol[1][1]][2] = Convol[5][1]
                     deleteConvol()
 
-  if Convol[0][0] is 1 and Convol[0][1] is 1
+  if Convol[0][0] is 1 and Convol[0][1] is 1 #COL
     if Convol[1][0] is 3 #if literal
       if Literals[Convol[1][1]][1] is off and Literals[Convol[1][1]][2] is off and Literals[Convol[1][1]][3] is off #if unused
         if Convol[2][0] is 2 and Convol[2][1] is 0 #if "("
@@ -110,7 +109,7 @@ syntaxAnalys = () ->
                     Literals[Convol[1][1]][2] = Convol[5][1]
                     deleteConvol()
 
-  if Convol[0][0] is 1 and Convol[0][1] is 2
+  if Convol[0][0] is 1 and Convol[0][1] is 2 #MATRIX
     if Convol[1][0] is 3 #if literal
       if Literals[Convol[1][1]][1] is off and Literals[Convol[1][1]][2] is off and Literals[Convol[1][1]][3] is off #if unused
         if Convol[2][0] is 2 and Convol[2][1] is 0 #if "("
@@ -133,28 +132,40 @@ syntaxAnalys = () ->
                                   Literals[Convol[1][1]][4] = Convol[11][1]
                                   deleteConvol()
 
-  if Convol[0][0] is 1 and Convol[0][1] is 3
+  if Convol[0][0] is 1 and Convol[0][1] is 3 #PRINT
     if Convol[1][0] is 2 and Convol[1][1] is 0 #if "("
       if Convol[2][0] is 3 #if literal
         if Convol[3][0] is 2 and Convol[3][1] is 2 #if ")"
           if Convol[4][0] is 0 #if end of command
             for word in Literals
               if word[0] is Literals[Convol[2][1]][0] and Literals[Convol[2][1]][5] isnt off
-                console.log("PRINT IS...")                                       ############ DO SOMETHING
-                deleteConvol()
+                if Literals[Convol[2][1]][5] is "MATRIX"
+                  Output.value += Literals[Convol[2][1]][1]+" "
+                  Output.value += Literals[Convol[2][1]][2]+"\n"
+                  Output.value += Literals[Convol[2][1]][3]+" "
+                  Output.value += Literals[Convol[2][1]][4]+"\n"
+                  deleteConvol()
+                if Literals[Convol[2][1]][5] is "COLVECTOR"
+                  Output.value += Literals[Convol[2][1]][1]+"\n"
+                  Output.value += Literals[Convol[2][1]][2]+"\n"
+                  deleteConvol()
+                if Literals[Convol[2][1]][5] is "ROWVECTOR"
+                  Output.value += Literals[Convol[2][1]][1]+" "
+                  Output.value += Literals[Convol[2][1]][2]+"\n"
+                  deleteConvol()
 
 
-  if Convol[0][0] is 3
+  if Convol[0][0] is 3 #Elem of vector
     for word in Literals
       if word[0] is Literals[Convol[0][1]][0] and Literals[Convol[0][1]][5] is "ROWVECTOR" or Literals[Convol[0][1]][5] is "COLVECTOR"
         if Convol[1][0] is 2 and Convol[1][1] is 0 #if "("
           if Convol[2][0] is 4 and Convol[2][1] is '1' or Convol[2][1] is '2'
             if Convol[3][0] is 2 and Convol[3][1] is 2 #if ")"
               if Convol[4][0] is 0 #if end of command
-                console.log("VECTOR #{Literals[Convol[0][1]][Convol[2][1]]}")
+                Output.value += Literals[Convol[0][1]][Convol[2][1]]+"\n"
                 deleteConvol()
 
-  if Convol[0][0] is 3
+  if Convol[0][0] is 3 #Elem of matrix
     for word in Literals
       if word[0] is Literals[Convol[0][1]][0] and Literals[Convol[0][1]][5] is "MATRIX"
         if Convol[1][0] is 2 and Convol[1][1] is 0 #if "("
@@ -163,10 +174,10 @@ syntaxAnalys = () ->
               if Convol[4][0] is 4 and Convol[4][1] is '1' or Convol[4][1] is '2'
                 if Convol[5][0] is 2 and Convol[5][1] is 2 #if ")"
                   if Convol[6][0] is 0 #if end of command
-                    if Convol[2][1] is '1' and Convol[4][1] is '1' then console.log("MATRIX #{Literals[Convol[0][1]][1]}")
-                    if Convol[2][1] is '1' and Convol[4][1] is '2' then console.log("MATRIX #{Literals[Convol[0][1]][2]}")
-                    if Convol[2][1] is '2' and Convol[4][1] is '1' then console.log("MATRIX #{Literals[Convol[0][1]][3]}")
-                    if Convol[2][1] is '2' and Convol[4][1] is '2' then console.log("MATRIX #{Literals[Convol[0][1]][4]}")
+                    if Convol[2][1] is '1' and Convol[4][1] is '1' then Output.value += Literals[Convol[0][1]][1]
+                    if Convol[2][1] is '1' and Convol[4][1] is '2' then Output.value += Literals[Convol[0][1]][2]
+                    if Convol[2][1] is '2' and Convol[4][1] is '1' then Output.value += Literals[Convol[0][1]][3]
+                    if Convol[2][1] is '2' and Convol[4][1] is '2' then Output.value += Literals[Convol[0][1]][4]
                     deleteConvol()
 
   #Math operations
@@ -177,10 +188,8 @@ syntaxAnalys = () ->
           if Convol[1][0] is 2 and Convol[1][1] is 3 #if "="
            doBrackets()
            doPriority(2,Convol.length-1)
-           console.log(turn)
+           console.log(turn+ " IS TURN")
            doMath()
-
-
 
 
 #Математические функции
@@ -1036,6 +1045,30 @@ doMath = () ->
           console.log(ConvRes)
 
 
+  for word, i in Convol   ##Вывод результата
+    unless Convol[i][2] is off or Convol[i][2] is 'use' or Convol[i][2] is undefined
+      if Literals[Convol[0][1]][5] is "ROWVECTOR"
+        if Convol[i][2][5] is "ROWVECTOR"
+          Literals[Convol[0][1]][1] = Convol[i][2][1]
+          Literals[Convol[0][1]][2] = Convol[i][2][2]
+        else console.log("Type error!")
+      if Literals[Convol[0][1]][5] is "COLVECTOR"
+        if Convol[i][2][5] is "COLVECTOR"
+          Literals[Convol[0][1]][1] = Convol[i][2][1]
+          Literals[Convol[0][1]][2] = Convol[i][2][2]
+        else console.log("Type error!")
+      if Literals[Convol[0][1]][5] is "MATRIX"
+        if Convol[i][2][5] is "MATRIX"
+          Literals[Convol[0][1]][1] = Convol[i][2][1]
+          Literals[Convol[0][1]][2] = Convol[i][2][2]
+          Literals[Convol[0][1]][3] = Convol[i][2][3]
+          Literals[Convol[0][1]][4] = Convol[i][2][4]
+        else console.log("Type error!")
+
+  #Чистка
+  deleteConvol()
+  deleteConvRes()
+  deleteTurn()
 
 
 doBrackets = () ->
@@ -1077,8 +1110,14 @@ doPriority = (begin_smb,end_smb)-> #Love you!
 
 #Вспомогательные функции
 
-deleteConvol = () ->
+deleteConvol = ->
   Convol = []
+
+deleteConvRes = ->
+  ConvRes = []
+
+deleteTurn = ->
+  turn = []
 
 isKeyword = (str,command) ->
   for word, index in Keywords
@@ -1090,7 +1129,6 @@ isKeyword = (str,command) ->
 isNumber = (str,command) ->
   if "0" <= str <= "9"
     Convol.push([4,str,'use'])
-    value_command.push(str)
     return on
   return off
 
