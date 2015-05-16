@@ -205,7 +205,7 @@ doMath = () ->
         ConvRes[ConvRes.length-1][3] = temp_m
         Convol[word-1][2] = ConvRes[ConvRes.length-1]
 
-    if Convol[word][1] is 6
+    if Convol[word][1] is 6  # "*"
       first_num = ''
       first_type = ''
       second_num = ''
@@ -298,7 +298,7 @@ doMath = () ->
 
 
       if first_type is "MATRIX" and second_type is "Number"
-        if Convol[first_num][2] is 'use'
+        if Convol[first_num][2] is 'use' and Convol[second_num][2] is 'use'
           A = []
           ConvRes.push(A)
           ConvRes[ConvRes.length-1][1] = Literals[Convol[first_num][1]][1]*Convol[second_num][1]
@@ -310,7 +310,19 @@ doMath = () ->
           Convol[second_num][2] = off
           console.log(Convol)
           console.log(ConvRes)
-        else if Convol[first_num][2] isnt 'use'
+        else if Convol[first_num][2] is 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Literals[Convol[first_num][1]][1]*Convol[second_num][2][1]
+          ConvRes[ConvRes.length-1][2] = Literals[Convol[first_num][1]][2]*Convol[second_num][2][1]
+          ConvRes[ConvRes.length-1][3] = Literals[Convol[first_num][1]][3]*Convol[second_num][2][1]
+          ConvRes[ConvRes.length-1][4] = Literals[Convol[first_num][1]][4]*Convol[second_num][2][1]
+          ConvRes[ConvRes.length-1][5] = "MATRIX"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] is 'use'
           A = []
           ConvRes.push(A)
           ConvRes[ConvRes.length-1][1] = Convol[first_num][2][1]*Convol[second_num][1]
@@ -322,9 +334,21 @@ doMath = () ->
           Convol[second_num][2] = off
           console.log(Convol)
           console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Convol[first_num][2][1]*Convol[second_num][2][1]
+          ConvRes[ConvRes.length-1][2] = Convol[first_num][2][2]*Convol[second_num][2][1]
+          ConvRes[ConvRes.length-1][3] = Convol[first_num][2][3]*Convol[second_num][2][1]
+          ConvRes[ConvRes.length-1][4] = Convol[first_num][2][4]*Convol[second_num][2][1]
+          ConvRes[ConvRes.length-1][5] = "MATRIX"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
 
       if first_type is "Number" and second_type is "MATRIX"
-        if Convol[second_num][2] is 'use'
+        if Convol[first_num][2] is 'use' and Convol[second_num][2] is 'use'
           A = []
           ConvRes.push(A)
           ConvRes[ConvRes.length-1][1] = Literals[Convol[second_num][1]][1]*Convol[first_num][1]
@@ -336,7 +360,7 @@ doMath = () ->
           Convol[first_num][2] = off
           console.log(Convol)
           console.log(ConvRes)
-        else if Convol[second_num][2] isnt 'use'
+        else if Convol[first_num][2] is 'use' and Convol[second_num][2] isnt 'use'
           A = []
           ConvRes.push(A)
           ConvRes[ConvRes.length-1][1] = Convol[second_num][2][1]*Convol[first_num][1]
@@ -348,10 +372,34 @@ doMath = () ->
           Convol[first_num][2] = off
           console.log(Convol)
           console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] is 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Literals[Convol[second_num][1]][1]*Convol[first_num][2][1]
+          ConvRes[ConvRes.length-1][2] = Literals[Convol[second_num][1]][2]*Convol[first_num][2][1]
+          ConvRes[ConvRes.length-1][3] = Literals[Convol[second_num][1]][3]*Convol[first_num][2][1]
+          ConvRes[ConvRes.length-1][4] = Literals[Convol[second_num][1]][4]*Convol[first_num][2][1]
+          ConvRes[ConvRes.length-1][5] = "MATRIX"
+          Convol[second_num][2] = ConvRes[ConvRes.length-1]
+          Convol[first_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Convol[second_num][2][1]*Convol[first_num][2][1]
+          ConvRes[ConvRes.length-1][2] = Convol[second_num][2][2]*Convol[first_num][2][1]
+          ConvRes[ConvRes.length-1][3] = Convol[second_num][2][3]*Convol[first_num][2][1]
+          ConvRes[ConvRes.length-1][4] = Convol[second_num][2][4]*Convol[first_num][2][1]
+          ConvRes[ConvRes.length-1][5] = "MATRIX"
+          Convol[second_num][2] = ConvRes[ConvRes.length-1]
+          Convol[first_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
 
 
       if first_type is "Number" and second_type is "ROWVECTOR" or first_type is "Number" and second_type is "COLVECTOR"
-        if Convol[second_num][2] is 'use'
+        if Convol[first_num][2] is 'use' and Convol[second_num][2] is 'use'
           A = []
           ConvRes.push(A)
           ConvRes[ConvRes.length-1][1] = Literals[Convol[second_num][1]][1]*Convol[first_num][1]
@@ -361,7 +409,7 @@ doMath = () ->
           Convol[first_num][2] = off
           console.log(Convol)
           console.log(ConvRes)
-        else if Convol[second_num][2] isnt 'use'
+        else if Convol[first_num][2] is 'use' and Convol[second_num][2] isnt 'use'
           A = []
           ConvRes.push(A)
           ConvRes[ConvRes.length-1][1] = Convol[second_num][2][1]*Convol[first_num][1]
@@ -371,9 +419,29 @@ doMath = () ->
           Convol[first_num][2] = off
           console.log(Convol)
           console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] is 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Literals[Convol[second_num][1]][1]*Convol[first_num][2][1]
+          ConvRes[ConvRes.length-1][2] = Literals[Convol[second_num][1]][2]*Convol[first_num][2][1]
+          ConvRes[ConvRes.length-1][5] = Literals[Convol[second_num][1]][5]
+          Convol[second_num][2] = ConvRes[ConvRes.length-1]
+          Convol[first_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Convol[second_num][2][1]*Convol[first_num][2][1]
+          ConvRes[ConvRes.length-1][2] = Convol[second_num][2][2]*Convol[first_num][2][1]
+          ConvRes[ConvRes.length-1][5] = Convol[second_num][2][5]
+          Convol[second_num][2] = ConvRes[ConvRes.length-1]
+          Convol[first_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
 
       if first_type is "ROWVECTOR" and second_type is "Number" or first_type is "COLVECTOR" and second_type is "Number"
-        if Convol[first_num][2] is 'use'
+        if Convol[first_num][2] is 'use' and Convol[second_num][2] is 'use'
           A = []
           ConvRes.push(A)
           ConvRes[ConvRes.length-1][1] = Literals[Convol[first_num][1]][1]*Convol[second_num][1]
@@ -383,11 +451,31 @@ doMath = () ->
           Convol[second_num][2] = off
           console.log(Convol)
           console.log(ConvRes)
-        else if Convol[first_num][2] isnt 'use'
+        else if Convol[first_num][2] is 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Literals[Convol[first_num][1]][1]*Convol[second_num][2][1]
+          ConvRes[ConvRes.length-1][2] = Literals[Convol[first_num][1]][2]*Convol[second_num][2][1]
+          ConvRes[ConvRes.length-1][5] = Literals[Convol[first_num][1]][5]
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] is 'use'
           A = []
           ConvRes.push(A)
           ConvRes[ConvRes.length-1][1] = Convol[first_num][2][1]*Convol[second_num][1]
           ConvRes[ConvRes.length-1][2] = Convol[first_num][2][2]*Convol[second_num][1]
+          ConvRes[ConvRes.length-1][5] = Convol[first_num][2][5]
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Convol[first_num][2][1]*Convol[second_num][2][1]
+          ConvRes[ConvRes.length-1][2] = Convol[first_num][2][2]*Convol[second_num][2][1]
           ConvRes[ConvRes.length-1][5] = Convol[first_num][2][5]
           Convol[first_num][2] = ConvRes[ConvRes.length-1]
           Convol[second_num][2] = off
@@ -483,16 +571,469 @@ doMath = () ->
           Convol[second_num][2] = off
           console.log(Convol)
           console.log(ConvRes)
+      if first_type is "Number" and second_type is "Number"
+        if Convol[first_num][2] is 'use' and Convol[second_num][2] is 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Convol[first_num][1]*Convol[second_num][1]
+          ConvRes[ConvRes.length-1][5] = "Number"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] is 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Convol[first_num][1]*Convol[second_num][2][1]
+          ConvRes[ConvRes.length-1][5] = "Number"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] is 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Convol[first_num][2][1]*Convol[second_num][1]
+          ConvRes[ConvRes.length-1][5] = "Number"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Convol[first_num][2][1]*Convol[second_num][2][1]
+          ConvRes[ConvRes.length-1][5] = "Number"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
 
+    if Convol[word][1] is 4 # "+"
+      first_num = ''
+      first_type = ''
+      second_num = ''
+      second_type = ''
+      for i in [word-1...1]
+        unless Convol[i][2] is off
+          if Convol[i][0] isnt 2
+            if Convol[i][2] is 'use' and Convol[i][0] is 4
+              first_num = i #адрес
+              first_type = 'Number'
+              break
+            else if Convol[i][2] is 'use'
+              first_num = i #адрес
+              first_type = Literals[Convol[i][1]][5]
+              break
+            else
+              first_num = i #адрес
+              first_type = Convol[i][2][5]
+              break
+      for n in [word+1..Convol.length-2]
+        unless Convol[n][2] is off
+          if Convol[n][0] isnt 2
+            if Convol[n][2] is 'use' and Convol[n][0] is 4
+              second_num = n #адрес
+              second_type = 'Number'
+              break
+            else if Convol[n][2] is 'use'
+              second_num = n #адрес
+              second_type = Literals[Convol[n][1]][5]
+              break
+            else
+              second_num = n #адрес
+              second_type = Convol[n][2][5]
+              break
 
+      console.log(first_num+" first_num")
+      console.log(first_type+" first_type")
+      console.log(second_num+" second_num")
+      console.log(second_type+" second_type")
 
+      if first_type is "MATRIX" and second_type is "MATRIX"
+        if Convol[first_num][2] is 'use' and Convol[second_num][2] is 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Literals[Convol[first_num][1]][1])+Number(Literals[Convol[second_num][1]][1])
+          ConvRes[ConvRes.length-1][2] = Number(Literals[Convol[first_num][1]][2])+Number(Literals[Convol[second_num][1]][2])
+          ConvRes[ConvRes.length-1][3] = Number(Literals[Convol[first_num][1]][3])+Number(Literals[Convol[second_num][1]][3])
+          ConvRes[ConvRes.length-1][4] = Number(Literals[Convol[first_num][1]][4])+Number(Literals[Convol[second_num][1]][4])
+          ConvRes[ConvRes.length-1][5] = "MATRIX"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] is 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Literals[Convol[first_num][1]][1])+Number(Convol[second_num][2][1])
+          ConvRes[ConvRes.length-1][2] = Number(Literals[Convol[first_num][1]][2])+Number(Convol[second_num][2][2])
+          ConvRes[ConvRes.length-1][3] = Number(Literals[Convol[first_num][1]][3])+Number(Convol[second_num][2][3])
+          ConvRes[ConvRes.length-1][4] = Number(Literals[Convol[first_num][1]][4])+Number(Convol[second_num][2][4])
+          ConvRes[ConvRes.length-1][5] = "MATRIX"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] is 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Convol[first_num][2][1])+Number(Literals[Convol[second_num][1]][1])
+          ConvRes[ConvRes.length-1][2] = Number(Convol[first_num][2][2])+Number(Literals[Convol[second_num][1]][2])
+          ConvRes[ConvRes.length-1][3] = Number(Convol[first_num][2][3])+Number(Literals[Convol[second_num][1]][3])
+          ConvRes[ConvRes.length-1][4] = Number(Convol[first_num][2][4])+Number(Literals[Convol[second_num][1]][4])
+          ConvRes[ConvRes.length-1][5] = "MATRIX"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Convol[first_num][2][1])+Number(Convol[second_num][2][1])
+          ConvRes[ConvRes.length-1][2] = Number(Convol[first_num][2][2])+Number(Convol[second_num][2][2])
+          ConvRes[ConvRes.length-1][3] = Number(Convol[first_num][2][3])+Number(Convol[second_num][2][3])
+          ConvRes[ConvRes.length-1][4] = Number(Convol[first_num][2][4])+Number(Convol[second_num][2][4])
+          ConvRes[ConvRes.length-1][5] = "MATRIX"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
 
+      if first_type is "ROWVECTOR" and second_type is "ROWVECTOR"
+        if Convol[first_num][2] is 'use' and Convol[second_num][2] is 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Literals[Convol[first_num][1]][1])+Number(Literals[Convol[second_num][1]][1])
+          ConvRes[ConvRes.length-1][2] = Number(Literals[Convol[first_num][1]][2])+Number(Literals[Convol[second_num][1]][2])
+          ConvRes[ConvRes.length-1][5] = "ROWVECTOR"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] is 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Literals[Convol[first_num][1]][1])+Number(Convol[second_num][2][1])
+          ConvRes[ConvRes.length-1][2] = Number(Literals[Convol[first_num][1]][2])+Number(Convol[second_num][2][2])
+          ConvRes[ConvRes.length-1][5] = "ROWVECTOR"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] is 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Convol[first_num][2][1])+Number(Literals[Convol[second_num][1]][1])
+          ConvRes[ConvRes.length-1][2] = Number(Convol[first_num][2][2])+Number(Literals[Convol[second_num][1]][2])
+          ConvRes[ConvRes.length-1][5] = "ROWVECTOR"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Convol[first_num][2][1])+Number(Convol[second_num][2][1])
+          ConvRes[ConvRes.length-1][2] = Number(Convol[first_num][2][2])+Number(Convol[second_num][2][2])
+          ConvRes[ConvRes.length-1][5] = "ROWVECTOR"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
 
+      if first_type is "COLVECTOR" and second_type is "COLVECTOR"
+        if Convol[first_num][2] is 'use' and Convol[second_num][2] is 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Literals[Convol[first_num][1]][1])+Number(Literals[Convol[second_num][1]][1])
+          ConvRes[ConvRes.length-1][2] = Number(Literals[Convol[first_num][1]][2])+Number(Literals[Convol[second_num][1]][2])
+          ConvRes[ConvRes.length-1][5] = "COLVECTOR"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] is 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Literals[Convol[first_num][1]][1])+Number(Convol[second_num][2][1])
+          ConvRes[ConvRes.length-1][2] = Number(Literals[Convol[first_num][1]][2])+Number(Convol[second_num][2][2])
+          ConvRes[ConvRes.length-1][5] = "COLVECTOR"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] is 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Convol[first_num][2][1])+Number(Literals[Convol[second_num][1]][1])
+          ConvRes[ConvRes.length-1][2] = Number(Convol[first_num][2][2])+Number(Literals[Convol[second_num][1]][2])
+          ConvRes[ConvRes.length-1][5] = "COLVECTOR"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Convol[first_num][2][1])+Number(Convol[second_num][2][1])
+          ConvRes[ConvRes.length-1][2] = Number(Convol[first_num][2][2])+Number(Convol[second_num][2][2])
+          ConvRes[ConvRes.length-1][5] = "COLVECTOR"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
 
+      if first_type is "Number" and second_type is "Number"
+        if Convol[first_num][2] is 'use' and Convol[second_num][2] is 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Convol[first_num][1])+Number(Convol[second_num][1])
+          ConvRes[ConvRes.length-1][5] = "Number"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] is 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Convol[first_num][1])+Number(Convol[second_num][2][1])
+          ConvRes[ConvRes.length-1][5] = "Number"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] is 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Convol[first_num][2][1])+Number(Convol[second_num][1])
+          ConvRes[ConvRes.length-1][5] = "Number"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Convol[first_num][2][1])+Number(Convol[second_num][2][1])
+          ConvRes[ConvRes.length-1][5] = "Number"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
 
+    if Convol[word][1] is 5 # "-"
+      first_num = ''
+      first_type = ''
+      second_num = ''
+      second_type = ''
+      for i in [word-1...1]
+        unless Convol[i][2] is off
+          if Convol[i][0] isnt 2
+            if Convol[i][2] is 'use' and Convol[i][0] is 4
+              first_num = i #адрес
+              first_type = 'Number'
+              break
+            else if Convol[i][2] is 'use'
+              first_num = i #адрес
+              first_type = Literals[Convol[i][1]][5]
+              break
+            else
+              first_num = i #адрес
+              first_type = Convol[i][2][5]
+              break
+      for n in [word+1..Convol.length-2]
+        unless Convol[n][2] is off
+          if Convol[n][0] isnt 2
+            if Convol[n][2] is 'use' and Convol[n][0] is 4
+              second_num = n #адрес
+              second_type = 'Number'
+              break
+            else if Convol[n][2] is 'use'
+              second_num = n #адрес
+              second_type = Literals[Convol[n][1]][5]
+              break
+            else
+              second_num = n #адрес
+              second_type = Convol[n][2][5]
+              break
 
+      console.log(first_num+" first_num")
+      console.log(first_type+" first_type")
+      console.log(second_num+" second_num")
+      console.log(second_type+" second_type")
 
+      if first_type is "MATRIX" and second_type is "MATRIX"
+        if Convol[first_num][2] is 'use' and Convol[second_num][2] is 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Literals[Convol[first_num][1]][1])-Number(Literals[Convol[second_num][1]][1])
+          ConvRes[ConvRes.length-1][2] = Number(Literals[Convol[first_num][1]][2])-Number(Literals[Convol[second_num][1]][2])
+          ConvRes[ConvRes.length-1][3] = Number(Literals[Convol[first_num][1]][3])-Number(Literals[Convol[second_num][1]][3])
+          ConvRes[ConvRes.length-1][4] = Number(Literals[Convol[first_num][1]][4])-Number(Literals[Convol[second_num][1]][4])
+          ConvRes[ConvRes.length-1][5] = "MATRIX"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] is 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Literals[Convol[first_num][1]][1])-Number(Convol[second_num][2][1])
+          ConvRes[ConvRes.length-1][2] = Number(Literals[Convol[first_num][1]][2])-Number(Convol[second_num][2][2])
+          ConvRes[ConvRes.length-1][3] = Number(Literals[Convol[first_num][1]][3])-Number(Convol[second_num][2][3])
+          ConvRes[ConvRes.length-1][4] = Number(Literals[Convol[first_num][1]][4])-Number(Convol[second_num][2][4])
+          ConvRes[ConvRes.length-1][5] = "MATRIX"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] is 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Convol[first_num][2][1])-Number(Literals[Convol[second_num][1]][1])
+          ConvRes[ConvRes.length-1][2] = Number(Convol[first_num][2][2])-Number(Literals[Convol[second_num][1]][2])
+          ConvRes[ConvRes.length-1][3] = Number(Convol[first_num][2][3])-Number(Literals[Convol[second_num][1]][3])
+          ConvRes[ConvRes.length-1][4] = Number(Convol[first_num][2][4])-Number(Literals[Convol[second_num][1]][4])
+          ConvRes[ConvRes.length-1][5] = "MATRIX"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Convol[first_num][2][1])-Number(Convol[second_num][2][1])
+          ConvRes[ConvRes.length-1][2] = Number(Convol[first_num][2][2])-Number(Convol[second_num][2][2])
+          ConvRes[ConvRes.length-1][3] = Number(Convol[first_num][2][3])-Number(Convol[second_num][2][3])
+          ConvRes[ConvRes.length-1][4] = Number(Convol[first_num][2][4])-Number(Convol[second_num][2][4])
+          ConvRes[ConvRes.length-1][5] = "MATRIX"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
 
+      if first_type is "ROWVECTOR" and second_type is "ROWVECTOR"
+        if Convol[first_num][2] is 'use' and Convol[second_num][2] is 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Literals[Convol[first_num][1]][1])-Number(Literals[Convol[second_num][1]][1])
+          ConvRes[ConvRes.length-1][2] = Number(Literals[Convol[first_num][1]][2])-Number(Literals[Convol[second_num][1]][2])
+          ConvRes[ConvRes.length-1][5] = "ROWVECTOR"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] is 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Literals[Convol[first_num][1]][1])-Number(Convol[second_num][2][1])
+          ConvRes[ConvRes.length-1][2] = Number(Literals[Convol[first_num][1]][2])-Number(Convol[second_num][2][2])
+          ConvRes[ConvRes.length-1][5] = "ROWVECTOR"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] is 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Convol[first_num][2][1])-Number(Literals[Convol[second_num][1]][1])
+          ConvRes[ConvRes.length-1][2] = Number(Convol[first_num][2][2])-Number(Literals[Convol[second_num][1]][2])
+          ConvRes[ConvRes.length-1][5] = "ROWVECTOR"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Convol[first_num][2][1])-Number(Convol[second_num][2][1])
+          ConvRes[ConvRes.length-1][2] = Number(Convol[first_num][2][2])-Number(Convol[second_num][2][2])
+          ConvRes[ConvRes.length-1][5] = "ROWVECTOR"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+
+      if first_type is "COLVECTOR" and second_type is "COLVECTOR"
+        if Convol[first_num][2] is 'use' and Convol[second_num][2] is 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Literals[Convol[first_num][1]][1])-Number(Literals[Convol[second_num][1]][1])
+          ConvRes[ConvRes.length-1][2] = Number(Literals[Convol[first_num][1]][2])-Number(Literals[Convol[second_num][1]][2])
+          ConvRes[ConvRes.length-1][5] = "COLVECTOR"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] is 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Literals[Convol[first_num][1]][1])-Number(Convol[second_num][2][1])
+          ConvRes[ConvRes.length-1][2] = Number(Literals[Convol[first_num][1]][2])-Number(Convol[second_num][2][2])
+          ConvRes[ConvRes.length-1][5] = "COLVECTOR"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] is 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Convol[first_num][2][1])-Number(Literals[Convol[second_num][1]][1])
+          ConvRes[ConvRes.length-1][2] = Number(Convol[first_num][2][2])-Number(Literals[Convol[second_num][1]][2])
+          ConvRes[ConvRes.length-1][5] = "COLVECTOR"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Convol[first_num][2][1])-Number(Convol[second_num][2][1])
+          ConvRes[ConvRes.length-1][2] = Number(Convol[first_num][2][2])-SNumber(Convol[second_num][2][2])
+          ConvRes[ConvRes.length-1][5] = "COLVECTOR"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+
+      if first_type is "Number" and second_type is "Number"
+        if Convol[first_num][2] is 'use' and Convol[second_num][2] is 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Convol[first_num][1])-Number(Convol[second_num][1])
+          ConvRes[ConvRes.length-1][5] = "Number"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] is 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Convol[first_num][1])-Number(Convol[second_num][2][1])
+          ConvRes[ConvRes.length-1][5] = "Number"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] is 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Convol[first_num][2][1])-Number(Convol[second_num][1])
+          ConvRes[ConvRes.length-1][5] = "Number"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
+        else if Convol[first_num][2] isnt 'use' and Convol[second_num][2] isnt 'use'
+          A = []
+          ConvRes.push(A)
+          ConvRes[ConvRes.length-1][1] = Number(Convol[first_num][2][1])-Number(Convol[second_num][2][1])
+          ConvRes[ConvRes.length-1][5] = "Number"
+          Convol[first_num][2] = ConvRes[ConvRes.length-1]
+          Convol[second_num][2] = off
+          console.log(Convol)
+          console.log(ConvRes)
 
 
 
