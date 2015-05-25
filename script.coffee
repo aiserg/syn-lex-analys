@@ -8,6 +8,8 @@ Convol = []
 
 turn = []
 ConvRes = []
+lex = 'lex'
+syn = 'syn'
 
 #Инициализация по заданию
 Keywords = ["ROWVECTOR", "COLVECTOR", "MATRIX", "PRINT"]  #1 in Convol
@@ -32,7 +34,7 @@ streamWords = ->
     InputMassive = stage.split("\n")
     lexicalAnalysis(InputMassive,num_n)
     Convol.push([0,0]) #new command
-    syntaxAnalys()
+    syntaxAnalys(num_n)
 
 lexicalAnalysis = (arr,n) ->
   word = arr[n]
@@ -79,7 +81,7 @@ Input.addEventListener('keyup', streamWords, false)
 
 #########################
 #Синтаксический анализатор
-syntaxAnalys = () ->
+syntaxAnalys = (n) ->
 
   if Convol[0][0] is 1 and Convol[0][1] is 0 #ROW
     if Convol[1][0] is 3 #if literal
@@ -94,6 +96,13 @@ syntaxAnalys = () ->
                     Literals[Convol[1][1]][1] = Convol[3][1]
                     Literals[Convol[1][1]][2] = Convol[5][1]
                     deleteConvol()
+                else errorMessage(lex,n)
+              else errorMessage(lex,n)
+            else errorMessage(lex,n)
+          else errorMessage(lex,n)
+        else errorMessage(lex,n)
+
+
 
   if Convol[0][0] is 1 and Convol[0][1] is 1 #COL
     if Convol[1][0] is 3 #if literal
@@ -108,6 +117,12 @@ syntaxAnalys = () ->
                     Literals[Convol[1][1]][1] = Convol[3][1]
                     Literals[Convol[1][1]][2] = Convol[5][1]
                     deleteConvol()
+                else errorMessage(lex,n)
+              else errorMessage(lex,n)
+            else errorMessage(lex,n)
+          else errorMessage(lex,n)
+
+
 
   if Convol[0][0] is 1 and Convol[0][1] is 2 #MATRIX
     if Convol[1][0] is 3 #if literal
@@ -131,6 +146,20 @@ syntaxAnalys = () ->
                                   Literals[Convol[1][1]][3] = Convol[9][1]
                                   Literals[Convol[1][1]][4] = Convol[11][1]
                                   deleteConvol()
+                              else errorMessage(lex,n)
+                            else errorMessage(lex,n)
+                          else errorMessage(lex,n)
+                        else errorMessage(lex,n)
+                      else errorMessage(lex,n)
+                    else errorMessage(lex,n)
+                  else errorMessage(lex,n)
+                else errorMessage(lex,n)
+              else errorMessage(lex,n)
+            else errorMessage(lex,n)
+          else errorMessage(lex,n)
+        else errorMessage(lex,n)
+      else errorMessage(lex,n)
+
 
   if Convol[0][0] is 1 and Convol[0][1] is 3 #PRINT
     if Convol[1][0] is 2 and Convol[1][1] is 0 #if "("
@@ -153,6 +182,9 @@ syntaxAnalys = () ->
                   Output.value += Literals[Convol[2][1]][1]+" "
                   Output.value += Literals[Convol[2][1]][2]+"\n"+"\n"
                   deleteConvol()
+        else errorMessage(lex,n)
+      else errorMessage(lex,n)
+    else errorMessage(lex,n)
 
 
   if Convol[0][0] is 3 #Elem of vector
@@ -162,8 +194,11 @@ syntaxAnalys = () ->
           if Convol[2][0] is 4 and Convol[2][1] is '1' or Convol[2][1] is '2'
             if Convol[3][0] is 2 and Convol[3][1] is 2 #if ")"
               if Convol[4][0] is 0 #if end of command
-                Output.value += Literals[Convol[0][1]][Convol[2][1]]+"\n"
+                Output.value += Literals[Convol[0][1]][Convol[2][1]]+"\n"+"\n"
                 deleteConvol()
+            else errorMessage(lex,n)
+          else errorMessage(lex,n)
+
 
   if Convol[0][0] is 3 #Elem of matrix
     for word in Literals
@@ -174,11 +209,16 @@ syntaxAnalys = () ->
               if Convol[4][0] is 4 and Convol[4][1] is '1' or Convol[4][1] is '2'
                 if Convol[5][0] is 2 and Convol[5][1] is 2 #if ")"
                   if Convol[6][0] is 0 #if end of command
-                    if Convol[2][1] is '1' and Convol[4][1] is '1' then Output.value += Literals[Convol[0][1]][1]
-                    if Convol[2][1] is '1' and Convol[4][1] is '2' then Output.value += Literals[Convol[0][1]][2]
-                    if Convol[2][1] is '2' and Convol[4][1] is '1' then Output.value += Literals[Convol[0][1]][3]
-                    if Convol[2][1] is '2' and Convol[4][1] is '2' then Output.value += Literals[Convol[0][1]][4]
+                    if Convol[2][1] is '1' and Convol[4][1] is '1' then Output.value += Literals[Convol[0][1]][1]+"\n"+"\n"
+                    if Convol[2][1] is '1' and Convol[4][1] is '2' then Output.value += Literals[Convol[0][1]][2]+"\n"+"\n"
+                    if Convol[2][1] is '2' and Convol[4][1] is '1' then Output.value += Literals[Convol[0][1]][3]+"\n"+"\n"
+                    if Convol[2][1] is '2' and Convol[4][1] is '2' then Output.value += Literals[Convol[0][1]][4]+"\n"+"\n"
                     deleteConvol()
+                else errorMessage(lex,n)
+              else errorMessage(lex,n)
+            else errorMessage(lex,n)
+
+
 
   #Math operations
   if Convol[0][0] is 3
@@ -190,7 +230,6 @@ syntaxAnalys = () ->
            doPriority(2,Convol.length-1)
            console.log(turn+ " IS TURN")
            doMath()
-
 
 #Математические функции
 
@@ -205,6 +244,7 @@ doMath = () ->
         ConvRes.push(Literals[Convol[word-1][1]])
         ConvRes[ConvRes.length-1][5] = "ROWVECTOR"
         Convol[word-1][2] = ConvRes[ConvRes.length-1]
+      else errorMessage(syn,n)
 
     if Convol[word][1] is 8
       if Literals[Convol[word-1][1]][5] is "MATRIX"
@@ -213,6 +253,7 @@ doMath = () ->
         ConvRes[ConvRes.length-1][2] = ConvRes[ConvRes.length-1][3]
         ConvRes[ConvRes.length-1][3] = temp_m
         Convol[word-1][2] = ConvRes[ConvRes.length-1]
+      else errorMessage(syn,n)
 
     if Convol[word][1] is 6  # "*"
       first_num = ''
@@ -617,6 +658,11 @@ doMath = () ->
           Convol[second_num][2] = off
           console.log(Convol)
           console.log(ConvRes)
+      if first_type is "MATRIX" and second_type is "ROWVECTOR" or first_type is "MATRIX" and second_type is "COLVECTOR"
+        errorMessage(syn,n)
+      if first_type is "ROWVECTOR" and second_type is "MATRIX" or first_type is "COLVECTOR" and second_type is "MATRIX"
+        errorMessage(syn,n)
+
 
     if Convol[word][1] is 4 # "+"
       first_num = ''
@@ -831,6 +877,24 @@ doMath = () ->
           console.log(Convol)
           console.log(ConvRes)
 
+      if first_type is "MATRIX" and second_type is "Number"
+        errorMessage(syn,n)
+      if first_type is "Number" and second_type is "MATRIX"
+        errorMessage(syn,n)
+      if first_type is "ROWVECTOR" and second_type is "COLVECTOR"
+        errorMessage(syn,n)
+      if first_type is "COLVECTOR" and second_type is "ROWVECTOR"
+        errorMessage(syn,n)
+      if first_type is "MATRIX" and second_type is "COLVECTOR" or first_type is "MATRIX" and second_type is "ROWVECTOR"
+        errorMessage(syn,n)
+      if first_type is "COLVECTOR" and second_type is "MATRIX" or first_type is "ROWVECTOR" and second_type is "MATRIX"
+        errorMessage(syn,n)
+      if first_type is "Number" and second_type is "COLVECTOR" or first_type is "Number" and second_type is "ROWVECTOR"
+        errorMessage(syn,n)
+      if first_type is "COLVECTOR" and second_type is "Number" or first_type is "ROWVECTOR" and second_type is "Number"
+        errorMessage(syn,n)
+
+
     if Convol[word][1] is 5 # "-"
       first_num = ''
       first_type = ''
@@ -1043,6 +1107,22 @@ doMath = () ->
           Convol[second_num][2] = off
           console.log(Convol)
           console.log(ConvRes)
+      if first_type is "MATRIX" and second_type is "Number"
+        errorMessage(syn,n)
+      if first_type is "Number" and second_type is "MATRIX"
+        errorMessage(syn,n)
+      if first_type is "ROWVECTOR" and second_type is "COLVECTOR"
+        errorMessage(syn,n)
+      if first_type is "COLVECTOR" and second_type is "ROWVECTOR"
+        errorMessage(syn,n)
+      if first_type is "MATRIX" and second_type is "COLVECTOR" or first_type is "MATRIX" and second_type is "ROWVECTOR"
+        errorMessage(syn,n)
+      if first_type is "COLVECTOR" and second_type is "MATRIX" or first_type is "ROWVECTOR" and second_type is "MATRIX"
+        errorMessage(syn,n)
+      if first_type is "Number" and second_type is "COLVECTOR" or first_type is "Number" and second_type is "ROWVECTOR"
+        errorMessage(syn,n)
+      if first_type is "COLVECTOR" and second_type is "Number" or first_type is "ROWVECTOR" and second_type is "Number"
+        errorMessage(syn,n)
 
 
   for word, i in Convol   ##Вывод результата
@@ -1051,19 +1131,19 @@ doMath = () ->
         if Convol[i][2][5] is "ROWVECTOR"
           Literals[Convol[0][1]][1] = Convol[i][2][1]
           Literals[Convol[0][1]][2] = Convol[i][2][2]
-        else console.log("Type error!")
+        else errorMessage('type',n)
       if Literals[Convol[0][1]][5] is "COLVECTOR"
         if Convol[i][2][5] is "COLVECTOR"
           Literals[Convol[0][1]][1] = Convol[i][2][1]
           Literals[Convol[0][1]][2] = Convol[i][2][2]
-        else console.log("Type error!")
+        else errorMessage('type',n)
       if Literals[Convol[0][1]][5] is "MATRIX"
         if Convol[i][2][5] is "MATRIX"
           Literals[Convol[0][1]][1] = Convol[i][2][1]
           Literals[Convol[0][1]][2] = Convol[i][2][2]
           Literals[Convol[0][1]][3] = Convol[i][2][3]
           Literals[Convol[0][1]][4] = Convol[i][2][4]
-        else console.log("Type error!")
+        else errorMessage('type',n)
 
   #Чистка
   deleteConvol()
@@ -1151,3 +1231,14 @@ isLiteral = (str,command) ->
       Convol.push([3,Literals.length-1,'use'])
     return on
   return off
+
+
+errorMessage = (type_err,num_str) ->
+
+  if type_err is lex
+    Output.value += "Lexical error in #{num_str} string!\n\n"
+  if type_err is syn
+    Output.value += "Syntax error in the last string!\n\n"
+  if type_err is 'type'
+    Output.value += "Type error in #{num_str} string!\n\n"
+
