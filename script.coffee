@@ -1,4 +1,4 @@
-#Глобальные
+##
 Input = document.getElementById("input-area")
 Output = document.getElementById("output-area")
 Input.value = ""
@@ -11,19 +11,16 @@ ConvRes = []
 lex = 'lex'
 syn = 'syn'
 
-#Инициализация по заданию
+
 Keywords = ["ROWVECTOR", "COLVECTOR", "MATRIX", "PRINT"]  #1 in Convol
 Separators = ["(", ",", ")", "=", "+", "-", "*", "^", "@"]  #2 in Convol
 Literals = []   #3 in Convol
 
-#       #       #       #
-##     ###     ###     ##
-###   ### ##   #####   ##
-#### ####### ####### ####
-#########################
-#Логика
+
 console.log("courseos@razumov:~> Let's test!")
 
+#################################
+#Lex analys
 streamWords = ->
   stage = Input.value
   num_n = -1
@@ -33,7 +30,7 @@ streamWords = ->
         if word.charAt(i) is "\n" then num_n++
     InputMassive = stage.split("\n")
     lexicalAnalysis(InputMassive,num_n)
-    Convol.push([0,0]) #new command
+    Convol.push([0,0])
     syntaxAnalys(num_n)
 
 lexicalAnalysis = (arr,n) ->
@@ -80,7 +77,7 @@ lexicalAnalysis = (arr,n) ->
 Input.addEventListener('keyup', streamWords, false)
 
 #########################
-#Синтаксический анализатор
+#Syntax amalys
 syntaxAnalys = (n) ->
 
   if Convol[0][0] is 1 and Convol[0][1] is 0 #ROW
@@ -231,7 +228,7 @@ syntaxAnalys = (n) ->
            console.log(turn+ " IS TURN")
            doMath()
 
-#Математические функции
+#Math func
 
 doMath = () ->
   for word, index in turn
@@ -1125,7 +1122,7 @@ doMath = () ->
         errorMessage(syn,n)
 
 
-  for word, i in Convol   ##Вывод результата
+  for word, i in Convol
     unless Convol[i][2] is off or Convol[i][2] is 'use' or Convol[i][2] is undefined
       if Literals[Convol[0][1]][5] is "ROWVECTOR"
         if Convol[i][2][5] is "ROWVECTOR"
@@ -1145,7 +1142,7 @@ doMath = () ->
           Literals[Convol[0][1]][4] = Convol[i][2][4]
         else errorMessage('type',n)
 
-  #Чистка
+
   deleteConvol()
   deleteConvRes()
   deleteTurn()
@@ -1188,7 +1185,7 @@ doPriority = (begin_smb,end_smb)-> #Love you!
       unless Number(begin_smb+index3) in turn
         turn.push(Number(begin_smb+index3))
 
-#Вспомогательные функции
+#Helpers
 
 deleteConvol = ->
   Convol = []
@@ -1203,12 +1200,14 @@ isKeyword = (str,command) ->
   for word, index in Keywords
     if word is str
       Convol.push([1,index])
+      console.log("#{str} is Keyword")
       return on
   return off
 
 isNumber = (str,command) ->
   if "0" <= str <= "9"
     Convol.push([4,str,'use'])
+    console.log("#{str} is Number")
     return on
   return off
 
@@ -1216,6 +1215,7 @@ isSeparator = (str,command) ->
   for word, index in Separators
     if word is str
       Convol.push([2,index])
+      console.log("#{str} is Separator")
       return on
   return off
 
@@ -1225,10 +1225,12 @@ isLiteral = (str,command) ->
     for word, index in Literals
       if word[0] is str
         Convol.push([3,index,'use'])
+        console.log("#{str} is Literal")
         flag = true
     if flag is off
       Literals.push([str,off,off,off,off,off]) #name value1 value2 type
       Convol.push([3,Literals.length-1,'use'])
+      console.log("#{str} is Literal")
     return on
   return off
 
